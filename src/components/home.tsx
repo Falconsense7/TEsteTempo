@@ -360,7 +360,7 @@ const Home = () => {
                         <div>
                           <p className="font-medium">{log.action}</p>
                           <p className="text-sm text-muted-foreground">
-                            Usuário: {log.user}
+                            Utilizador: {log.user}
                           </p>
                         </div>
                         <div className="flex flex-col items-end gap-1">
