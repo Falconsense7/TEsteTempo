@@ -60,7 +60,7 @@ const Login = () => {
         credentials.username === "manager" &&
         credentials.password === "manager"
       ) {
-        navigate("/company");
+        navigate("/modules");
       } else if (
         credentials.username === "employee" &&
         credentials.password === "employee"
@@ -149,6 +149,13 @@ const Login = () => {
                 <li>Fiscal: fiscal / fiscal</li>
                 <li>Manager: manager / manager</li>
                 <li>Employee: employee / employee</li>
+                <li>Accountant: accountant / accountant</li>
+                <li>HR: hr / hr</li>
+                <li>Collection: collection / collection</li>
+                <li>Cashier: cashier / cashier</li>
+                <li>Inventory: inventory / inventory</li>
+                <li>Analytics: analytics / analytics</li>
+                <li>Auditor: auditor / auditor</li>
               </ul>
             </div>
           </CardContent>

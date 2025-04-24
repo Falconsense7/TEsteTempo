@@ -42,14 +42,65 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   };
 
   const sidebarItems = [
-    { name: "System Overview", icon: "📊" },
-    { name: "User Management", icon: "👥" },
-    { name: "Entity Management", icon: "🏢" },
-    { name: "Billing & Licenses", icon: "💳" },
-    { name: "Security Settings", icon: "🔒" },
-    { name: "System Logs", icon: "📝" },
-    { name: "Theme Settings", icon: "🎨" },
+    {
+      category: "Administração",
+      items: [
+        { name: "Dashboard", icon: "📊", path: "/admin" },
+        { name: "Usuários", icon: "👥", path: "/admin" },
+        { name: "Entidades", icon: "🏢", path: "/admin" },
+        { name: "Licenças", icon: "💳", path: "/admin" },
+        { name: "Segurança", icon: "🔒", path: "/admin" },
+        { name: "Logs", icon: "📝", path: "/admin" },
+      ],
+    },
+    {
+      category: "Gestão Empresarial",
+      items: [
+        { name: "Dashboard Empresa", icon: "🏢", path: "/company" },
+        { name: "Dashboard Funcionário", icon: "👤", path: "/employee" },
+        { name: "Fiscal", icon: "📑", path: "/fiscal" },
+        { name: "Todos os Módulos", icon: "🧩", path: "/modules" },
+      ],
+    },
+    {
+      category: "Módulos Funcionais",
+      items: [
+        { name: "Contabilidade", icon: "💼", path: "/accountant" },
+        { name: "Recursos Humanos", icon: "👥", path: "/hr" },
+        { name: "Cobrança", icon: "💰", path: "/collection" },
+        { name: "Caixa", icon: "🧾", path: "/cashier" },
+        { name: "Estoque", icon: "📦", path: "/inventory" },
+        { name: "Análise de Dados", icon: "📈", path: "/analytics" },
+        { name: "Auditoria", icon: "🔍", path: "/auditor" },
+      ],
+    },
+    {
+      category: "Configurações",
+      items: [
+        { name: "Preferências", icon: "⚙️", path: "/admin" },
+        { name: "Tema", icon: "🎨", path: "/admin" },
+      ],
+    },
   ];
+
+  // Get current role from URL path
+  const getCurrentRole = () => {
+    const path = window.location.pathname;
+    if (path.includes("/admin")) return "admin";
+    if (path.includes("/fiscal")) return "fiscal";
+    if (path.includes("/company")) return "company";
+    if (path.includes("/employee")) return "employee";
+    if (path.includes("/accountant")) return "accountant";
+    if (path.includes("/hr")) return "hr";
+    if (path.includes("/collection")) return "collection";
+    if (path.includes("/cashier")) return "cashier";
+    if (path.includes("/inventory")) return "inventory";
+    if (path.includes("/analytics")) return "analytics";
+    if (path.includes("/auditor")) return "auditor";
+    return "admin"; // Default
+  };
+
+  const currentRole = getCurrentRole();
 
   return (
     <div className={`min-h-screen bg-background ${isDarkTheme ? "dark" : ""}`}>
@@ -74,7 +125,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               alt="Logo"
               className="h-8 w-8"
             />
-            <h1 className="text-xl font-bold tracking-tight">Oblivion</h1>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight">Oblivion</h1>
+              <p className="text-xs text-muted-foreground">
+                {currentRole.charAt(0).toUpperCase() + currentRole.slice(1)}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -185,18 +241,28 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <div className="flex">
         {/* Sidebar for larger screens */}
         <aside
-          className={`fixed inset-y-0 left-0 z-20 mt-16 hidden w-64 transform border-r bg-background transition-transform duration-200 md:block ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+          className={`fixed inset-y-0 left-0 z-20 mt-16 hidden w-64 transform border-r bg-background transition-transform duration-200 md:block overflow-y-auto ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <nav className="space-y-1 p-4">
-            {sidebarItems.map((item) => (
-              <Button
-                key={item.name}
-                variant="ghost"
-                className="w-full justify-start text-left font-normal"
-              >
-                <span className="mr-3">{item.icon}</span>
-                {item.name}
-              </Button>
+          <nav className="p-4">
+            {sidebarItems.map((category, idx) => (
+              <div key={idx} className="mb-6">
+                <h3 className="mb-2 px-2 text-sm font-semibold text-muted-foreground">
+                  {category.category}
+                </h3>
+                <div className="space-y-1">
+                  {category.items.map((item) => (
+                    <Button
+                      key={item.name}
+                      variant="ghost"
+                      className="w-full justify-start text-left font-normal"
+                      onClick={() => (window.location.href = item.path)}
+                    >
+                      <span className="mr-3">{item.icon}</span>
+                      {item.name}
+                    </Button>
+                  ))}
+                </div>
+              </div>
             ))}
           </nav>
         </aside>
@@ -212,17 +278,27 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-64 pt-16">
-            <nav className="space-y-1 p-4">
-              {sidebarItems.map((item) => (
-                <Button
-                  key={item.name}
-                  variant="ghost"
-                  className="w-full justify-start text-left font-normal"
-                >
-                  <span className="mr-3">{item.icon}</span>
-                  {item.name}
-                </Button>
+          <SheetContent side="left" className="w-64 pt-16 overflow-y-auto">
+            <nav className="p-4">
+              {sidebarItems.map((category, idx) => (
+                <div key={idx} className="mb-6">
+                  <h3 className="mb-2 px-2 text-sm font-semibold text-muted-foreground">
+                    {category.category}
+                  </h3>
+                  <div className="space-y-1">
+                    {category.items.map((item) => (
+                      <Button
+                        key={item.name}
+                        variant="ghost"
+                        className="w-full justify-start text-left font-normal"
+                        onClick={() => (window.location.href = item.path)}
+                      >
+                        <span className="mr-3">{item.icon}</span>
+                        {item.name}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
               ))}
             </nav>
           </SheetContent>

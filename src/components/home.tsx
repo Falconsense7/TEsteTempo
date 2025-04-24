@@ -127,7 +127,7 @@ const Home = () => {
   };
 
   // Get status badge color
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case "active":
         return <Badge className="bg-green-500">Ativo</Badge>;

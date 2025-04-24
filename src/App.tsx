@@ -19,6 +19,37 @@ const EmployeeDashboard = lazy(
   () => import("./components/employee/EmployeeDashboard"),
 );
 
+// Lazy load new dashboard components
+const AccountantDashboard = lazy(
+  () => import("./components/accountant/AccountantDashboard"),
+);
+
+const HRDashboard = lazy(() => import("./components/hr/HRDashboard"));
+
+const CollectionDashboard = lazy(
+  () => import("./components/collection/CollectionDashboard"),
+);
+
+const CashierDashboard = lazy(
+  () => import("./components/cashier/CashierDashboard"),
+);
+
+const InventoryDashboard = lazy(
+  () => import("./components/inventory/InventoryDashboard"),
+);
+
+const AnalyticsDashboard = lazy(
+  () => import("./components/analytics/AnalyticsDashboard"),
+);
+
+const AuditorDashboard = lazy(
+  () => import("./components/auditor/AuditorDashboard"),
+);
+
+const ModulesDashboard = lazy(
+  () => import("./components/dashboard/ModulesDashboard"),
+);
+
 function App() {
   return (
     <Suspense
@@ -36,6 +67,16 @@ function App() {
           <Route path="/fiscal" element={<FiscalDashboard />} />
           <Route path="/company" element={<CompanyDashboard />} />
           <Route path="/employee" element={<EmployeeDashboard />} />
+          <Route path="/modules" element={<ModulesDashboard />} />
+
+          {/* New dashboard routes */}
+          <Route path="/accountant" element={<AccountantDashboard />} />
+          <Route path="/hr" element={<HRDashboard />} />
+          <Route path="/collection" element={<CollectionDashboard />} />
+          <Route path="/cashier" element={<CashierDashboard />} />
+          <Route path="/inventory" element={<InventoryDashboard />} />
+          <Route path="/analytics" element={<AnalyticsDashboard />} />
+          <Route path="/auditor" element={<AuditorDashboard />} />
 
           {/* Add this before the catchall route for tempo */}
           {import.meta.env.VITE_TEMPO === "true" && (
